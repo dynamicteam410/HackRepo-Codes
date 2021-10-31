@@ -1,0 +1,192 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// ************ DLL Template **********
+
+class Node{
+    public: 
+        int data;
+        Node *prev;
+        Node *next;
+        Node(int n)
+        {
+            data =n;
+            prev =NULL;
+            next =NULL;
+        }
+};
+
+
+
+
+// ************ DLL Traversal ************
+
+void TraverseDLL(Node *head)
+{
+    Node *temp =head;
+    while(temp!=NULL)
+    {
+        // cout<<temp->data<<"("<<temp->prev<<","<<temp->next<<")"<<" ";
+        cout<<temp->data<<" ";
+        temp =temp->next;
+    }
+}
+
+
+
+
+// ************* insert At Begining of DLL ************
+
+Node *insertAtBeginingDLL(Node *head)
+{
+    int newData;
+    cin>>newData;
+    Node *temp =new Node(newData);
+    
+    if(head==NULL)
+        return temp;
+    
+    temp->next =head;
+    head->prev =temp;
+    return temp;
+}
+
+
+
+
+// ************* insert At End of DLL ************ 
+
+Node *insertAtEndingDLL(Node *head)
+{
+    int newData;
+    cin>>newData;
+    Node *temp =new Node(newData);
+    Node *curr =head;
+    
+    if(head==NULL)
+        return temp;
+    
+    while(curr->next!=NULL)
+        curr =curr->next;
+    
+    curr->next =temp;
+    temp->prev =curr;
+    return head;
+}
+
+
+
+
+// ************* Reverse DLL ************
+ 
+ Node *reverseDLL(Node *head)
+ {
+     Node *curr =head;
+     if(head == NULL) 
+        return NULL;
+     
+     if(head->next == NULL)
+        return head;
+        
+     while(curr->next!=NULL)
+     {
+         Node *t =curr->next;
+         curr->next =curr->prev;
+         curr->prev =t;
+         
+         curr =curr->prev;
+     }
+     
+     Node *r =curr->next;
+     curr->next =curr->prev;
+     curr->prev =r;
+     
+     return curr;
+     
+ }
+ 
+ 
+ 
+ 
+//  ************ Delete Tail of DLL ***********
+
+Node *deleteTailDLL(Node *head)
+{
+    if(head == NULL)
+        return NULL;
+    
+    if(head->next == NULL)
+    {
+        delete head;
+        return NULL;
+    }
+    
+    Node *curr =head;
+    while(curr->next->next!=NULL)
+        curr =curr->next;
+        
+    Node *t =curr->next;
+    curr->next =NULL;
+    delete t;
+    return head;
+}
+ 
+ 
+ 
+ 
+// ************ Delete Head of DLL **********
+
+Node *deleteHeadDLL(Node *head)
+{
+    if(head ==NULL)
+        return NULL;
+    
+    if(head->next == NULL)
+    {
+        delete head;
+        return NULL;
+    }
+        
+    Node *temp =head;
+    head =head->next;
+    head->prev =NULL;
+    delete temp;
+    return head;
+}
+
+
+
+
+// ************** Driver Function ************
+
+int main() {
+	int T;
+	cin>>T;
+	while(T--)
+	{
+	    int n,firstData;
+	    cin>>n>>firstData;
+	    
+	    Node *head =new Node(firstData);
+	    Node *tail =head;
+	    
+	    for(int i=0;i<n-1;++i)
+	    {
+	        int data;
+	        cin>>data;
+	        
+	        tail->next =new Node(data);
+	        tail->next->prev =tail;
+	        tail =tail->next;
+	    }
+	    
+	 // head =insertAtBeginingDLL(head);
+	 // head =insertAtEndingDLL(head);
+	 // head =reverseDLL(head);
+	 // head =deleteHeadDLL(head);
+	 // head =deleteTailDLL(head);
+	    TraverseDLL(head);
+	}
+	return 0;
+}
